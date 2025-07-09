@@ -1,9 +1,18 @@
+"use client";
+
 import Link from 'next/link'
-import { FaRegCircleUser, FaCartShopping, FaMagnifyingGlass } from "react-icons/fa6";
+import { useState } from 'react';
+import { FaRegCircleUser, FaCartShopping, FaMagnifyingGlass, FaAngleDown } from "react-icons/fa6";
+import CatalogueMenu from './CatalogueMenu/CatalogueMenu';
+import ProjectsMenu from './ProjectsMenu/ProjectsMenu';
 
 function Header() {
+
+  const [isCatalogueOpen, setIsCatalogueOpen] = useState(false);
+  const [isProjectsOpen, setIsProjectsOpen] = useState(false);
+
   return (
-    <header className='p-6 bg-[#203e47] text-white rounded-b-4xl'>
+    <header className='min-w-screen z-2 p-6 bg-[#204733] text-white rounded-b-4xl fixed'>
       <nav className='flex flex-row justify-between items-center'>
 
         <Link href="/" className='uppercase font-bold text-2xl'>
@@ -11,12 +20,29 @@ function Header() {
         </Link>
 
         <ul className='flex justify-between uppercase items-center'>
-          <div className='mr-6'>
-            Catalogue
+
+          <div
+            className='mr-6 cursor-pointer flex items-center'
+            onClick={() => {
+              setIsCatalogueOpen(true)
+              setIsProjectsOpen(false)
+            }}
+          >
+            <p className='mr-2'>Catalogue</p>
+            <FaAngleDown className={isCatalogueOpen ? "rotate-180" : ""} />
           </div>
-          <div className='mr-6'>
-            Projet et services
+
+          <div
+            className='mr-6 cursor-pointer flex items-center'
+            onClick={() => {
+              setIsCatalogueOpen(false)
+              setIsProjectsOpen(true)
+            }}
+          >
+            <p className='mr-2'>Projet et services</p>
+            <FaAngleDown className={isProjectsOpen ? "rotate-180" : ""} />
           </div>
+
           <div className='mr-6'>
             Contact
           </div>
@@ -36,6 +62,10 @@ function Header() {
         </div>
 
       </nav>
+
+      {isCatalogueOpen && <CatalogueMenu />}
+      {isProjectsOpen && <ProjectsMenu />}
+
     </header>
   )
 }
